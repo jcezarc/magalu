@@ -14,6 +14,7 @@ class LiteTable(FormatTable):
                 params['database'], 
                 check_same_thread=False
             )
+        self.allow_left_joins = True
         self.cache = {}
 
     def execute(self, command, need_commit):
@@ -32,11 +33,11 @@ class LiteTable(FormatTable):
             self.pk_fields[0],
             self.table_name
         )
-        result = self.execute(command, False).fetchall()[0][0]
-        return result if result else 0
+        result = self.execute(command, False).fetchall()
+        return result[0][0]
 
-    def find_all(self, limit=0, filter_expr='', allow_left_joins=True):
-        if allow_left_joins:
+    def find_all(self, limit=0, filter_expr=''):
+        if self.allow_left_joins:
             field_list, curr_table, expr_join = self.query_elements()
         else:
             field_list = list(self.map)
@@ -54,43 +55,32 @@ class LiteTable(FormatTable):
             if result:
                 return result
         dataset = self.execute(command, False).fetchall()
-        right_side = lambda s: field.split(s)[-1]
         result = []
-        for row in dataset:
+        for values in dataset:
             record = {}
-            for field, value in zip(field_list, row):
-                field = right_side(' as ')
-                field = right_side('.')
-                if 'date' in str(type(value)):
+            for field, value in zip(field_list, values):
+                field = field.split('.')[-1]
+                if field in self.joins:
+                    join = self.joins[field]
+                    value = join.find_one(value, True)
+                if value and self.map[field] == 'DATE':
                     value = value.strftime('%Y-%m-%d')
-                key, value = self.inflate(
-                    value,
-                    record,
-                    field.split('__')
-                )
-                record[key] = value
+                record[field] = value
             result.append(record)
         if filter_expr:
             self.cache[filter_expr] = result
         return result
 
-    def get_conditions(self, values, only_pk=True, use_alias=False):
-        result = super().get_conditions(values, only_pk)
-        if not use_alias:
-            return result
+    def format_conditions(self):
+        if not self.allow_left_joins:
+            return super().format_conditions()
         return ' AND '.join(
             [f'{self.alias}.{c}' for c in self.conditions]
         )
 
-    def find_one(self, values, only_pk=False, use_alias=True):
+    def find_one(self, values, only_pk=False):
         found = self.find_all(
-            limit=1,
-            filter_expr=self.get_conditions(
-                values,
-                only_pk,
-                use_alias,
-            ),
-            allow_left_joins=False
+            1, self.get_conditions(values, only_pk=only_pk)
         )
         if found:
             return found[0]
@@ -99,7 +89,7 @@ class LiteTable(FormatTable):
     def delete(self, values):
         command = 'DELETE FROM {} WHERE {}'.format(
             self.table_name,
-            self.get_conditions(values, True)
+            self.get_conditions(values)
         )
         self.execute(command, True)
 
@@ -108,12 +98,12 @@ class LiteTable(FormatTable):
             field = field.split('.')[-1]
             if field in self.joins:
                 join = self.joins[field]
-                found = join.find_one(value, True, False)
+                found = join.find_one(value, False)
                 if not found:
                     errors = join.insert(value)
                     if errors:
                         return errors
-                    found = join.find_one(value, True, False)
+                    found = join.find_one(value, False)
                 json_data[field] = found
         errors = super().insert(json_data)
         if errors:

@@ -35,7 +35,7 @@ class PessoaService:
         errors = self.table.insert(json)
         if errors:
             return resp_error(errors)
-        return resp_post_ok()
+        return resp_post_ok(json)
 
     def update(self, json):
         logging.info('Alterando um registro de Pessoa ...')
