@@ -1,0 +1,10 @@
+{
+	"info": {
+		"_postman_id": "a1a9dd54-2e7a-4a61-80f3-f4eac2bd18e4",
+		"name": "Testes_func_Magalu",
+		"description": "Testes funcionais para a API de comunicação do Magalu.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [],
+	"protocolProfileBehavior": {}
+}

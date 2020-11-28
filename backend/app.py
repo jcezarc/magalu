@@ -37,7 +37,7 @@ def set_swagger(app):
         swagger_url,
         '/api',
         config={
-            'app_name': "*- Plataforma para comunicações do Magalu -*"
+            'app_name': "*- Comunicações do Magalu -*"
         }
     )
     app.register_blueprint(swaggerui_blueprint, url_prefix=swagger_url)
