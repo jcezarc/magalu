@@ -1,4 +1,3 @@
-import json
 from flask import current_app
 from marshmallow import Schema
 from marshmallow.fields import (
@@ -15,8 +14,9 @@ from marshmallow.fields import (
     Raw
 )
 
+
 class FlaskSwaggerGenerator:
-    """    
+    """
     ---------- callback sample: -----------------
     def swagger_details(id_route):
         model = ...
@@ -48,7 +48,7 @@ class FlaskSwaggerGenerator:
             "info": info
         }
 
-    @staticmethod    
+    @staticmethod
     def route_split(route):
         names = route.split('/')
         params = []
@@ -64,6 +64,7 @@ class FlaskSwaggerGenerator:
 
     def list_routes(self):
         result = {}
+
         def clear_tag(item):
             return item.strip().replace('\n', '')
         for rule in self.app.url_map.iter_rules():
@@ -81,10 +82,14 @@ class FlaskSwaggerGenerator:
                 )
                 if ignore:
                     continue
-            route_name = route_name.replace('<','{').replace('>','}')
+            route_name = route_name.replace(
+                '<', '{'
+            ).replace(
+                '>', '}'
+            )
             route_obj = result.get(route_name, {})
             for method in rule.methods:
-                if not method in ['GET', 'POST', 'PUT', 'DELETE']:
+                if method not in ['GET', 'POST', 'PUT', 'DELETE']:
                     continue
                 if not description:
                     if resource:
@@ -169,7 +174,7 @@ class FlaskSwaggerGenerator:
                 "200": {
                     "description": f"objeto {operacao} com sucesso"
                 },
-                "404":{
+                "404": {
                     "description": "O recurso não foi encontrado"
                 }
             }
@@ -178,7 +183,7 @@ class FlaskSwaggerGenerator:
                 "201": {
                     "description": "Sucesso"
                 },
-                "400":{
+                "400": {
                     "description": "Erro(s)"
                 }
             }
@@ -237,7 +242,6 @@ class FlaskSwaggerGenerator:
         return {
             "type": data_type
         }
-
 
     @staticmethod
     def type_object(properties):

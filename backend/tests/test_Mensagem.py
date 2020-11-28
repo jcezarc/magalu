@@ -1,13 +1,12 @@
-import sys
-sys.path.append('..')
 from service.Mensagem_service import MensagemService
 from model.Mensagem_model import MensagemModel
 from util.db.lite_table import LiteTable
 from util.tester import Tester
 
+
 def get_service():
     table = LiteTable(
-        MensagemModel,{
+        MensagemModel, {
             'database': Tester.temp_file()
             #  'database': ':memory:'
         }
@@ -15,17 +14,21 @@ def get_service():
     table.create_table()
     return MensagemService(table)
 
+
 def test_find_success():
     test = Tester(get_service)
     test.find_success()
+
 
 def test_find_failure():
     test = Tester(get_service)
     test.find_failure()
 
+
 def test_insert_success():
     test = Tester(get_service)
     test.insert_success()
+
 
 def test_insert_failure():
     test = Tester(get_service)

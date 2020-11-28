@@ -9,6 +9,7 @@ from util.messages import (
 )
 from service.db_connection import get_table
 
+
 class PessoaService:
     def __init__(self, table=None):
         if table:
@@ -43,7 +44,7 @@ class PessoaService:
         if errors:
             return resp_error(errors)
         return resp_ok("Gravado OK!")
-        
+
     def delete(self, cpf_cnpj):
         logging.info('Removendo um registro de Pessoa ...')
         self.table.delete(cpf_cnpj)

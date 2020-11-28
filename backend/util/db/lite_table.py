@@ -1,7 +1,7 @@
 import sqlite3
 import mysql.connector
 from util.db.fmt_table import FormatTable
-from datetime import datetime
+
 
 class LiteTable(FormatTable):
 
@@ -11,7 +11,7 @@ class LiteTable(FormatTable):
             self.connection = mysql.connector.connect(**params)
         else:
             self.connection = sqlite3.connect(
-                params['database'], 
+                params['database'],
                 check_same_thread=False
             )
         self.allow_left_joins = True
@@ -47,8 +47,8 @@ class LiteTable(FormatTable):
             ',\n\t'.join(field_list),
             curr_table,
             expr_join,
-	        f'\nWHERE {filter_expr}' if filter_expr else '',
-	        f'\nLIMIT {limit}' if limit else ''
+            f'\nWHERE {filter_expr}' if filter_expr else '',
+            f'\nLIMIT {limit}' if limit else ''
         )
         if self.cache and filter_expr:
             result = self.cache.get(filter_expr)

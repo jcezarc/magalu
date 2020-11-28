@@ -1,13 +1,9 @@
 from flask_restful import Resource
-
-
 from service.Mensagem_service import MensagemService
+
 
 class MensagemById(Resource):
 
-    
-
-    
     def get(self, id):
         """
         Procura uma mensagem pelo <id>
@@ -17,7 +13,6 @@ class MensagemById(Resource):
         service = MensagemService()
         return service.find(None, id)
 
-    
     def delete(self, id):
         """
         Exclui uma mensagem

@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
+"""
+API de comunicação do Magalu
+"""
+
 import logging
-from flask import Flask, Blueprint, request, jsonify
+from flask import Flask, jsonify
 from flask_restful import Api
 from flask_cors import CORS
 from flask_swagger_ui import get_swaggerui_blueprint
@@ -15,21 +19,72 @@ from resource.all_Mensagem import AllMensagem
 
 BASE_PATH = '/magalu/comunica'
 
+
 def config_routes(app):
     api = Api(app)
-    #--- Resources: ----
-    api.add_resource(PessoaById, f'{BASE_PATH}/Pessoa/<cpf_cnpj>', methods=['GET'], endpoint='get_Pessoa_by_id')
-    api.add_resource(AllPessoa, f'{BASE_PATH}/Pessoa', methods=['GET'], endpoint='get_AllPessoa')
-    api.add_resource(AllPessoa, f'{BASE_PATH}/Pessoa', methods=['POST'], endpoint='post_Pessoa')
-    api.add_resource(AllPessoa, f'{BASE_PATH}/Pessoa', methods=['PUT'], endpoint='put_Pessoa')
-    api.add_resource(PessoaById, f'{BASE_PATH}/Pessoa/<cpf_cnpj>', methods=['DELETE'], endpoint='delete_Pessoa')
-    api.add_resource(MensagemById, f'{BASE_PATH}/Mensagem/<id>', methods=['GET'], endpoint='get_Mensagem_by_id')
-    api.add_resource(AllMensagem, f'{BASE_PATH}/Mensagem', methods=['GET'], endpoint='get_AllMensagem')
-    api.add_resource(AllMensagem, f'{BASE_PATH}/Mensagem', methods=['POST'], endpoint='post_Mensagem')
-    api.add_resource(AllMensagem, f'{BASE_PATH}/Mensagem', methods=['PUT'], endpoint='put_Mensagem')
-    api.add_resource(MensagemById, f'{BASE_PATH}/Mensagem/<id>', methods=['DELETE'], endpoint='delete_Mensagem')
-    
-    #-------------------
+    # --- Resources: ----
+    api.add_resource(
+        PessoaById,
+        f'{BASE_PATH}/Pessoa/<cpf_cnpj>',
+        methods=['GET'],
+        endpoint='get_Pessoa_by_id'
+    )
+    api.add_resource(
+        AllPessoa,
+        f'{BASE_PATH}/Pessoa',
+        methods=['GET'],
+        endpoint='get_AllPessoa'
+    )
+    api.add_resource(
+        AllPessoa,
+        f'{BASE_PATH}/Pessoa',
+        methods=['POST'],
+        endpoint='post_Pessoa'
+    )
+    api.add_resource(
+        AllPessoa,
+        f'{BASE_PATH}/Pessoa',
+        methods=['PUT'],
+        endpoint='put_Pessoa'
+    )
+    api.add_resource(
+        PessoaById,
+        f'{BASE_PATH}/Pessoa/<cpf_cnpj>',
+        methods=['DELETE'],
+        endpoint='delete_Pessoa'
+    )
+    api.add_resource(
+        MensagemById,
+        f'{BASE_PATH}/Mensagem/<id>',
+        methods=['GET'],
+        endpoint='get_Mensagem_by_id'
+    )
+    api.add_resource(
+        AllMensagem,
+        f'{BASE_PATH}/Mensagem',
+        methods=['GET'],
+        endpoint='get_AllMensagem'
+    )
+    api.add_resource(
+        AllMensagem,
+        f'{BASE_PATH}/Mensagem',
+        methods=['POST'],
+        endpoint='post_Mensagem'
+    )
+    api.add_resource(
+        AllMensagem,
+        f'{BASE_PATH}/Mensagem',
+        methods=['PUT'],
+        endpoint='put_Mensagem'
+    )
+    api.add_resource(
+        MensagemById,
+        f'{BASE_PATH}/Mensagem/<id>',
+        methods=['DELETE'],
+        endpoint='delete_Mensagem'
+    )
+    # -------------------
+
 
 def set_swagger(app):
     swagger_url = '/docs'
@@ -65,9 +120,9 @@ def swagger_details(args):
         else:
             resource = MensagemById
         model = MensagemModel()
-    
     ignore = False
     return model, resource, docstring, ignore
+
 
 logging.basicConfig(
     filename='magalu.log',
@@ -82,6 +137,7 @@ CORS(APP)
 config_routes(APP)
 set_swagger(APP)
 
+
 @APP.route('/api')
 def get_api():
     """
@@ -94,11 +150,6 @@ def get_api():
         None
     )
     return jsonify(generator.content)
-
-@APP.route('/health')
-def health():
-    return 'OK', 200
-
 
 
 if __name__ == '__main__':

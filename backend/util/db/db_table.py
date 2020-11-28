@@ -1,11 +1,9 @@
 import json
 from marshmallow.fields import (
-    Str, 
-    Nested, 
-    Integer, 
-    Float, 
-    Decimal, 
-    Date, 
+    Nested,
+    Integer,
+    Float,
+    Date,
     Boolean
 )
 
@@ -53,7 +51,6 @@ class DbTable:
                 field_type = 'BOOLEAN'
             else:
                 field_type = 'VARCHAR(100)'
-            is_number = field_type in ['Integer', 'Float', 'Decimal']
             if isinstance(field, Nested):
                 self.add_join(field_name, field.nested, params)
                 join = self.joins[field_name]
@@ -69,7 +66,12 @@ class DbTable:
     def is_quoted(self, field):
         return self.map[field][:7] in ["VARCHAR", "DATE"]
 
-    def statement_columns(self, dataset, is_insert=False, pattern='{field}={value}'):
+    def statement_columns(
+        self,
+        dataset,
+        is_insert=False,
+        pattern='{field}={value}'
+    ):
         result = []
         args = {}
         if 'prefix' in pattern:

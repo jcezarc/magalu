@@ -1,6 +1,5 @@
 from marshmallow import Schema
-from marshmallow.fields import Str, Nested, List, Integer, Float, Date, Boolean
-from model.Pessoa_model import PessoaModel
+from marshmallow.fields import Str, Nested, Date
 from model.Pessoa_model import PessoaModel
 
 

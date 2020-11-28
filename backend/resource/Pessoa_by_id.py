@@ -1,13 +1,9 @@
 from flask_restful import Resource
-
-
 from service.Pessoa_service import PessoaService
+
 
 class PessoaById(Resource):
 
-    
-
-    
     def get(self, cpf_cnpj):
         """
         Procura uma pessoa pelo cpf_cnpj
@@ -17,7 +13,6 @@ class PessoaById(Resource):
         service = PessoaService()
         return service.find(None, cpf_cnpj)
 
-    
     def delete(self, cpf_cnpj):
         """
         Exclui uma Pessoa

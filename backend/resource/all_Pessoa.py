@@ -1,12 +1,11 @@
 import json
 from flask_restful import Resource
-from flask import request, jsonify
-
+from flask import request
 from service.Pessoa_service import PessoaService
+
 
 class AllPessoa(Resource):
 
-    
     def get(self):
         """
         Retorna uma lista de pessoas
@@ -15,8 +14,7 @@ class AllPessoa(Resource):
         """
         service = PessoaService()
         return service.find(request.args)
-    
-    
+
     def post(self):
         """
         Grava um novo registro de Pessoa
@@ -27,7 +25,6 @@ class AllPessoa(Resource):
         service = PessoaService()
         return service.insert(req_data)
 
-    
     def put(self):
         """
         Atualiza um registro de pessoa.

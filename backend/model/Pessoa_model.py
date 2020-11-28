@@ -1,5 +1,5 @@
 from marshmallow import Schema
-from marshmallow.fields import Str, Nested, List, Integer, Float, Date, Boolean
+from marshmallow.fields import Str
 
 
 class PessoaModel(Schema):
@@ -7,4 +7,3 @@ class PessoaModel(Schema):
     nome = Str()
     email = Str()
     celular = Str()
-

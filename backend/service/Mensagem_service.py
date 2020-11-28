@@ -9,6 +9,7 @@ from util.messages import (
 )
 from service.db_connection import get_table
 
+
 class MensagemService:
     def __init__(self, table=None):
         if table:
@@ -43,7 +44,7 @@ class MensagemService:
         if errors:
             return resp_error(errors)
         return resp_ok("Registro alterado OK!")
-        
+
     def delete(self, id):
         logging.info('Removendo um registro de Mensagem ...')
         self.table.delete(id)
