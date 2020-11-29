@@ -84,7 +84,7 @@ class LiteTable(FormatTable):
             [f'{self.alias}.{c}' for c in self.conditions]
         )
 
-    def find_one(self, values, only_pk=False, use_alias=True):
+    def find_one(self, values, only_pk=False, use_alias=False):
         found = self.find_all(
             limit=1,
             filter_expr=self.get_conditions(

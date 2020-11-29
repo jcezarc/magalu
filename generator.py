@@ -144,7 +144,7 @@ class Generator:
         })
         # 14
         self.consulta_msg({
-            'de': 'p1',
+            'de': 'P1',
             'situacao': SITUACAO_NAO_ENV,
             'esperado': []
         })
