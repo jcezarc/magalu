@@ -7,7 +7,6 @@ flask-swagger-ui==3.20.9
 marshmallow==3.2.0
 pytest==5.4.1
 requests==2.19.1
-
-
 mysql-connector-python
 
+Faker==4.14.0
