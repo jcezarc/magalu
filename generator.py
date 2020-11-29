@@ -7,6 +7,7 @@ Faz requisições à API e compara
 import random
 import requests
 from faker import Faker
+from datetime import datetime
 
 
 BASE_URL = 'http://localhost:5000/magalu/comunica/{}'
@@ -39,8 +40,9 @@ class Generator:
         print('-'*50)
         print('[POST]', id)
         conteudo = fake.text()
+        data_hora = fake.future_date(end_date='+210d')
         record['id'] = id
-        record['data_hora'] = fake.date()
+        record['data_hora'] = data_hora.strftime('%Y-%m-%d')
         record['tipo'] = random.choice(TIPOS_MSG)
         record['situacao'] = SITUACAO_NAO_ENV
         record['assunto'] = id
@@ -188,7 +190,7 @@ class Generator:
             'situacao': SITUACAO_NAO_ENV,
             'esperado': ['M4']
         })
-        # 18
+        # 22
         self.consulta_msg({
             'esperado': ['M1', 'M4']
         })
