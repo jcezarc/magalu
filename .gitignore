@@ -3,4 +3,4 @@ __pycache__
 .pytest_cache
 *.log
 temp
-run.bat
+*.db

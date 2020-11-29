@@ -10,29 +10,20 @@ from util.messages import (
 from service.db_connection import get_table
 
 
-def parse_assunto(txt):
-    result = []
-    for s in txt.split(' '):
-        s = s.replace(' ', '')
-        if s: result.append(
-            "assunto = '{}'".format(s)
-        )
-    return '({})'.format(
-        ' OR '.join(result)
-    )
-
-
 class MensagemService:
+
     def __init__(self, table=None):
         if table:
             self.table = table
         else:
             self.table = get_table(MensagemModel)
 
+    def start_db(self):
+        self.table.create_table()
+
     def find(self, params, id=None):
         if id is None:
             logging.info('Consulta lista de mensagens...')
-            self.table.new_condition_event['assunto'] = parse_assunto
             found = self.table.find_all(
                 20,
                 self.table.get_conditions(params, False)

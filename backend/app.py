@@ -15,6 +15,7 @@ from resource.all_Pessoa import AllPessoa
 from model.Mensagem_model import MensagemModel
 from resource.Mensagem_by_id import MensagemById
 from resource.all_Mensagem import AllMensagem
+from service.Mensagem_service import MensagemService
 
 
 BASE_PATH = '/magalu/comunica'
@@ -132,8 +133,10 @@ logging.basicConfig(
 )
 
 APP = Flask(__name__)
+APP.before_first_request(
+    MensagemService().start_db
+)
 CORS(APP)
-
 config_routes(APP)
 set_swagger(APP)
 

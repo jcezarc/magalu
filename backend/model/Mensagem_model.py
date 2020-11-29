@@ -1,6 +1,6 @@
 from marshmallow import Schema
 from marshmallow.fields import Str, Integer, Nested, Date
-from Pessoa_model import PessoaModel
+from model.Pessoa_model import PessoaModel
 
 
 class MensagemModel(Schema):
