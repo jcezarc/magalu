@@ -10,8 +10,9 @@ class LiteTable(FormatTable):
         if 'user' in params:
             self.connection = mysql.connector.connect(**params)
         else:
+            file_name = params['database']
             self.connection = sqlite3.connect(
-                params['database'],
+                file_name,
                 check_same_thread=False
             )
         self.allow_left_joins = True
