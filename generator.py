@@ -81,12 +81,13 @@ class Generator:
         for id in esperado:
             assert existe_mensagem(id, dados)
 
-    def altera_situacao(self, id, situacao):
+    def altera_situacao(self, id, situacao, exibir=True):
         record = {}
         record['id'] = id
-        record['sitacao'] = situacao
-        print('-'*50)
-        print('[PUT]', id, situacao)
+        record['situacao'] = situacao
+        if exibir:
+            print('-'*50)
+            print('[PUT]', id, situacao)
         url = BASE_URL.format('Mensagem')
         resp = requests.put(url, json=record)
         assert resp.status_code == 200
@@ -99,7 +100,18 @@ class Generator:
         resp = requests.delete(url)
         assert resp.status_code == 200
 
+    def prepara_ambiente(self):
+        '''
+        Caso as mensagens já existirem,
+        retorna elas à situação padrão:
+        '''
+        print('\n*** Testes funcionais para a API Magalu/Comunica ***')
+        print('Aguarde...')
+        self.altera_situacao('M1', SITUACAO_NAO_ENV, False)
+        self.altera_situacao('M3', SITUACAO_NAO_ENV, False)
+
     def run(self):
+        self.prepara_ambiente()
         # 1
         self.cria_pessoa('P1')
         # 2

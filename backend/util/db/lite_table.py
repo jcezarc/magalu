@@ -106,16 +106,17 @@ class LiteTable(FormatTable):
         self.execute(command, True)
 
     def insert(self, json_data):
+        found = self.find_one(json_data, True, False)
+        if found:
+            return None
         for field, value in json_data.items():
             field = field.split('.')[-1]
             if field in self.joins:
                 join = self.joins[field]
+                errors = join.insert(value)
+                if errors:
+                    return errors
                 found = join.find_one(value, True, False)
-                if not found:
-                    errors = join.insert(value)
-                    if errors:
-                        return errors
-                    found = join.find_one(value, True, False)
                 json_data[field] = found
         errors = super().insert(json_data)
         if errors:

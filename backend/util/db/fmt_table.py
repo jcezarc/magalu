@@ -113,7 +113,7 @@ class FormatTable(DbTable):
         field_list.append('\n\tPRIMARY KEY({})'.format(
             ','.join(self.pk_fields)
         ))
-        command = 'CREATE TABLE {}({}\n);\n'.format(
+        command = 'CREATE TABLE IF NOT EXISTS {} ({}\n);\n'.format(
             self.table_name, 
             ','.join(field_list) 
         )
