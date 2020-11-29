@@ -13,12 +13,11 @@ class Tester:
         self.callback = callback
 
     @staticmethod
-    def temp_file():
-        dst = './tests/temp'
-        if not os.path.exists(dst):
-            os.makedirs(dst)
+    def temp_file(path= './tests/temp'):
+        if not os.path.exists(path):
+            os.makedirs(path)
         return os.path.join(
-            dst,
+            path,
             str(uuid.uuid4())+'.db'
         )
 

@@ -1,5 +1,4 @@
 import os
-from util.tester import Tester
 from util.db.lite_table import LiteTable
 
 
@@ -27,5 +26,5 @@ def get_table(schema):
         # "password": MAGALU_PASSWORD,
         # "database": "magalu"
         # ---- Sqlite -----------------------
-        "database": Tester.temp_file()
+        "database": 'magalu.db'
     })

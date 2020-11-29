@@ -39,13 +39,13 @@ class PessoaService:
         return resp_post_ok(json)
 
     def update(self, json):
-        logging.info('Alterando um registro de Pessoa ...')
+        logging.info('Alterando uma Pessoa ...')
         errors = self.table.update(json)
         if errors:
             return resp_error(errors)
         return resp_ok("Gravado OK!")
 
     def delete(self, cpf_cnpj):
-        logging.info('Removendo um registro de Pessoa ...')
+        logging.info('Removendo uma Pessoa ...')
         self.table.delete(cpf_cnpj)
         return resp_ok("Registro excluído OK!")

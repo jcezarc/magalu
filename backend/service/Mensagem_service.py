@@ -10,6 +10,18 @@ from util.messages import (
 from service.db_connection import get_table
 
 
+def parse_assunto(txt):
+    result = []
+    for s in txt.split(' '):
+        s = s.replace(' ', '')
+        if s: result.append(
+            "assunto = '{}'".format(s)
+        )
+    return '({})'.format(
+        ' OR '.join(result)
+    )
+
+
 class MensagemService:
     def __init__(self, table=None):
         if table:
@@ -20,6 +32,7 @@ class MensagemService:
     def find(self, params, id=None):
         if id is None:
             logging.info('Consulta lista de mensagens...')
+            self.table.new_condition_event['assunto'] = parse_assunto
             found = self.table.find_all(
                 20,
                 self.table.get_conditions(params, False)
@@ -39,13 +52,17 @@ class MensagemService:
         return resp_post_ok(json)
 
     def update(self, json):
-        logging.info('Alterando um registro de mensagem ...')
-        errors = self.table.update(json)
-        if errors:
-            return resp_error(errors)
+        logging.info('Alterando uma mensagem ...')
+        # --- Só permite alterar a situação da mensagem: ---
+        json = {
+            'id': json['id'],
+            'situacao': json.get('situacao', 1)
+        }
+        # ---------------------------------------------------
+        self.table.update(json)
         return resp_ok("Registro alterado OK!")
 
     def delete(self, id):
-        logging.info('Removendo um registro de Mensagem ...')
+        logging.info('Removendo uma Mensagem ...')
         self.table.delete(id)
         return resp_ok("Registro excluído OK!")
