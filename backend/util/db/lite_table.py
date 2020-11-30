@@ -131,11 +131,11 @@ class LiteTable(FormatTable):
 
     def update(self, json_data):
         if not json_data:
-            return 'No data to update'
+            return False
         command = self.get_command(
             json_data,
             is_insert=False,
             use_quotes=False
         )
         self.execute(command, True)
-        return None
+        return True

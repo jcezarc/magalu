@@ -40,9 +40,8 @@ class PessoaService:
 
     def update(self, json):
         logging.info('Alterando uma Pessoa ...')
-        errors = self.table.update(json)
-        if errors:
-            return resp_error(errors)
+        if not self.table.update(json):
+            return resp_error('Falha ao alterar Pessoa.')
         return resp_ok("Gravado OK!")
 
     def delete(self, cpf_cnpj):

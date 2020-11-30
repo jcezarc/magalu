@@ -44,13 +44,16 @@ class MensagemService:
 
     def update(self, json):
         logging.info('Alterando uma mensagem ...')
+        if 'id' not in json:
+            return resp_error('Dados incompletos')
         # --- Só permite alterar a situação da mensagem: ---
         json = {
             'id': json['id'],
             'situacao': json.get('situacao', 1)
         }
         # ---------------------------------------------------
-        self.table.update(json)
+        if not self.table.update(json):
+            return resp_error('Falha ao alterar Mensagem.')
         return resp_ok("Registro alterado OK!")
 
     def delete(self, id):

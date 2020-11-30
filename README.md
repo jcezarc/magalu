@@ -56,6 +56,9 @@ As seguintes situações foram testadas para verificar se cada serviço está fu
 * Sucesso na busca: Retorna o registro relacionado ao campo chave usado na busca;
 * Falha de inclusão: Não permite registro com campos inválidos;
 * Sucesso na inclusão: Simula a gravação de um registro e retorna sem erros;
+* Falha na alteração: Não permite registro com campos inválidos;
+* Sucesso na alteração: Altera o registro, localiza ele no banco de dados e compara com o esperado.
+
 
 ![](./doc/testes_unitarios.png)
 
